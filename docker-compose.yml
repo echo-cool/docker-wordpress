@@ -1,22 +1,10 @@
 version: "3.5"
 
 services:
-  db:
-    image: mariadb:10.11
-    volumes:
-      - "db-data:/var/lib/mysql"
-    environment:
-      MYSQL_ROOT_PASSWORD: wordpress
-      MYSQL_DATABASE: wordpress
-      MYSQL_USER: wordpress
-      MYSQL_PASSWORD: wordpress
-
   wordpress:
-    depends_on:
-      - db
     build: ./
     volumes:
-      - "site-data:/var/www/wp-content"
+      - "./site-data:/var/www/wp-content"
     ports:
       - "8123:80"
     environment:
@@ -30,14 +18,3 @@ services:
       #WP_DEBUG: "true"
       #WP_DEBUG_DISPLAY: "true"
 
-volumes:
-  db-data:
-  site-data:
-
-networks:
-  default:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 192.168.91.0/24
